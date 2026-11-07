@@ -1,0 +1,263 @@
+
+.seller-graph-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #253247;
+  min-width: 0;
+}
+
+.seller-graph-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.seller-graph-heading h4 {
+  margin: 0 0 6px;
+  color: #edf2ff;
+  font-size: 14px;
+}
+
+.seller-graph-heading p,
+.seller-graph-disclaimer {
+  color: #8fa2bf;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.seller-graph-heading p {
+  margin: 0;
+  max-width: 420px;
+}
+
+.seller-graph-heading > span {
+  color: #b9c6ff;
+  background: #222c48;
+  border: 1px solid #344365;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.seller-graph-canvas {
+  position: relative;
+  height: 420px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #29374c;
+  border-radius: 12px;
+  background: #0a101c;
+}
+
+/* Seller cards */
+
+.seller-graph-node {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 13px;
+  border: 1px solid #42516b;
+  border-radius: 11px;
+  background: #121d2e;
+  color: #edf2ff;
+  box-shadow: 0 8px 22px #0003;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.seller-graph-node:hover {
+  border-color: #8295b5;
+  box-shadow: 0 10px 26px #0005;
+}
+
+.seller-graph-node strong {
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.seller-graph-node small {
+  color: #9db0cc;
+  font-size: 10px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.seller-graph-node span {
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 4px 7px;
+  border-radius: 6px;
+  background: #28364b;
+  color: #c8d5eb;
+  font-size: 9px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.seller-graph-node.target {
+  border-color: #4b9cff;
+  box-shadow: 0 0 0 1px #4b9cff22, 0 8px 22px #0003;
+}
+
+.seller-graph-node.target span {
+  background: #1e3d62;
+  color: #9bcaff;
+}
+
+.seller-graph-node.flagged {
+  border-color: #e65c70;
+  box-shadow: 0 0 0 1px #e65c7022, 0 8px 22px #0003;
+}
+
+.seller-graph-node.flagged span {
+  background: #4a2330;
+  color: #ffb4c0;
+}
+
+/* Connection labels and edges */
+
+.seller-graph-canvas .react-flow__edge-text {
+  fill: #d7d3ff;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.seller-graph-canvas .react-flow__edge-textbg {
+  fill: #101827;
+  fill-opacity: 0.96;
+}
+
+.seller-graph-canvas .react-flow__edge path {
+  stroke-linecap: round;
+}
+
+.seller-graph-canvas .react-flow__edge.selected path {
+  stroke-width: 3;
+}
+
+/* Zoom controls */
+
+.seller-graph-canvas .react-flow__controls {
+  overflow: hidden;
+  border: 1px solid #34445d;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px #0003;
+}
+
+.seller-graph-canvas .react-flow__controls button {
+  background: #182438;
+  border-color: #34445d;
+  color: #edf2ff;
+  fill: #edf2ff;
+}
+
+.seller-graph-canvas .react-flow__controls button:hover {
+  background: #263752;
+}
+
+.seller-graph-canvas .react-flow__controls button svg {
+  fill: currentColor;
+}
+
+/* Smaller, less distracting minimap */
+
+.seller-graph-canvas .react-flow__minimap {
+  width: 110px;
+  height: 75px;
+  background: #101a2a;
+  border: 1px solid #34445d;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.seller-graph-canvas .react-flow__minimap-mask {
+  fill: #020617;
+  fill-opacity: 0.45;
+}
+
+/* Graph legend */
+
+.seller-graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.seller-graph-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #a9b8d0;
+  font-size: 11px;
+}
+
+.seller-graph-legend i {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.seller-graph-legend .legend-target {
+  background: #4b9cff;
+}
+
+.seller-graph-legend .legend-related {
+  background: #64748b;
+}
+
+.seller-graph-legend .legend-flagged {
+  background: #e65c70;
+}
+
+/* Empty state and disclaimer */
+
+.seller-graph-section .muted {
+  color: #8fa2bf;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.seller-graph-disclaimer {
+  margin: 12px 0 0;
+}
+
+/* Responsive layout */
+
+@media (max-width: 768px) {
+  .seller-graph-canvas {
+    height: 360px;
+  }
+
+  .seller-graph-heading p {
+    max-width: 280px;
+  }
+
+  .seller-graph-node {
+    width: 155px;
+    padding: 10px;
+  }
+
+  .seller-graph-canvas .react-flow__minimap {
+    width: 85px;
+    height: 60px;
+  }
+
+  .seller-graph-legend {
+    gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seller-graph-node {
+    transition: none;
+  }
+}
