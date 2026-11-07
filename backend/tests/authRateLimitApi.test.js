@@ -10,10 +10,12 @@ const baseUrl = await new Promise((resolve, reject) => {
   server.once("error", reject);
 });
 
-async function post(path) {
+async function post(path, forwardedFor) {
+  const headers = { "Content-Type": "application/json" };
+  if (forwardedFor) headers["X-Forwarded-For"] = forwardedFor;
   const response = await fetch(`${baseUrl}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: "{}",
   });
 
@@ -45,6 +47,31 @@ test("limits repeated registration attempts with a clear retry response", async 
   assert.equal(limited.status, 429);
   assert.equal(limited.body.success, false);
   assert.match(limited.body.message, /Too many registration attempts/);
+});
+
+test("login rate limiting keys on the address added by the trusted proxy hop", async () => {
+  const trustedClientAddress = "198.51.100.41";
+
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const untrustedPrefix = `203.0.113.${attempt + 1}`;
+    const response = await post(
+      "/api/auth/login",
+      `${untrustedPrefix}, ${trustedClientAddress}`
+    );
+    assert.equal(response.status, 400);
+  }
+
+  const sameProxyClient = await post(
+    "/api/auth/login",
+    `192.0.2.99, ${trustedClientAddress}`
+  );
+  assert.equal(sameProxyClient.status, 429);
+
+  const differentProxyClient = await post(
+    "/api/auth/login",
+    "203.0.113.77, 198.51.100.42"
+  );
+  assert.equal(differentProxyClient.status, 400);
 });
 
 test.after(async () => {

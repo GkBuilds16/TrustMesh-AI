@@ -19,6 +19,9 @@ import {
 
 export function createApp({ payments = paymentService } = {}) {
   const app = express();
+  // Render's edge/load balancer is the single hop directly in front of the app.
+  // Trust only that hop so req.ip uses its rightmost forwarded client address.
+  app.set("trust proxy", 1);
   const frontendOrigin = process.env.FRONTEND_BASE_URL
     ? new URL(process.env.FRONTEND_BASE_URL).origin
     : process.env.NODE_ENV === "production" ? null : "http://localhost:5173";
