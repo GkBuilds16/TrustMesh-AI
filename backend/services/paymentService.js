@@ -323,11 +323,12 @@ export function createPaymentService({ paypal = paypalClient } = {}) {
     return serializePayment(updated);
   }
 
-  async function processWebhook({ headers, event }) {
+  async function processWebhook({ headers, event, onVerificationResult }) {
     if (!event || typeof event.id !== "string" || typeof event.event_type !== "string") {
       throw httpError(400, "INVALID_WEBHOOK", "Invalid PayPal webhook event.");
     }
     const verified = await paypal.verifyWebhook(headers, event);
+    onVerificationResult?.(verified);
     if (!verified) throw httpError(401, "INVALID_WEBHOOK_SIGNATURE", "PayPal webhook signature verification failed.");
     if (await PayPalWebhookEvent.exists({ eventId: event.id })) {
       return { received: true, duplicate: true };

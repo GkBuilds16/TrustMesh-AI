@@ -17,7 +17,7 @@ import {
   errorHandler,
 } from "./middleware/errorHandler.js";
 
-export function createApp({ payments = paymentService } = {}) {
+export function createApp({ payments = paymentService, logger = console } = {}) {
   const app = express();
   // Render's edge/load balancer is the single hop directly in front of the app.
   // Trust only that hop so req.ip uses its rightmost forwarded client address.
@@ -35,7 +35,7 @@ export function createApp({ payments = paymentService } = {}) {
   }));
   app.use(express.json({ limit: "100kb", inflate: false }));
   app.use("/api/auth", authRoutes);
-  app.post("/api/webhooks/paypal", createPayPalWebhookController({ service: payments }));
+  app.post("/api/webhooks/paypal", createPayPalWebhookController({ service: payments, logger }));
   app.use("/api/payments", createPaymentRouter({ service: payments }));
 
 // Public health check
